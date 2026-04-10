@@ -1,0 +1,23 @@
+{
+  "name": "Mini Todo",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bookworm",
+
+  "forwardPorts": [5173],
+  "portsAttributes": {
+    "5173": {
+      "label": "Vite dev server",
+      "onAutoForward": "notify"
+    }
+  },
+
+  "postCreateCommand": "npm install && npx playwright install chromium --with-deps",
+
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-playwright.playwright"],
+      "settings": {
+        "editor.formatOnSave": true
+      }
+    }
+  }
+}

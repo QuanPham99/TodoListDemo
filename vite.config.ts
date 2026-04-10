@@ -4,6 +4,11 @@ import { sentryVitePlugin } from "@sentry/vite-plugin";
 
 // https://vite.dev/config/
 export default defineConfig({
+  // GitHub Codespaces sets CODESPACES=true; bind so forwarded port is reachable.
+  server:
+    process.env.CODESPACES === "true"
+      ? { host: true, strictPort: true, port: 5173 }
+      : undefined,
   build: { sourcemap: "hidden" },
   plugins: [
     react(),

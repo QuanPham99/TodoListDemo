@@ -87,6 +87,17 @@ In CI, set `CI=1` so the config uses stricter Playwright defaults (for example n
 
 ---
 
+## GitHub Codespaces
+
+This repo is set up so you can work in a browser-based dev environment without installing Node or Playwright browsers on your laptop.
+
+1. **Configuration** — `.devcontainer/devcontainer.json` uses the Microsoft **Node 20** dev image, forwards port **5173**, runs `npm install` and `npx playwright install chromium --with-deps` after the container is created (so Chromium and Linux libs needed for Playwright are present).
+2. **Vite in Codespaces** — GitHub sets `CODESPACES=true` in the environment. `vite.config.ts` listens on all interfaces in that case so the **Ports** tab / forwarded URL can reach the dev server.
+3. **Using it** — Push the repository to GitHub, open the repo on github.com, choose **Code → Codespaces → Create codespace on …** (your account or organization must have [Codespaces enabled](https://docs.github.com/en/codespaces/developing-in-a-codespace/creating-a-codespace-for-a-repository) and billing where required). After setup finishes, run `npm run dev` and open the **5173** URL when prompted, or run `npm run test:e2e` in the terminal.
+4. **Optional polish** — Repository settings → **Codespaces** can define default secrets or machine types for the team; you do not need that for this demo to work.
+
+---
+
 ## Step-by-step: from bug feedback to this test (BA-friendly)
 
 Use this as a template when a user emails or tickets: “Add todo doesn’t work.”
@@ -110,6 +121,7 @@ You do not need to write every test yourself; **your** artifact is often steps 1
 - `src/` — React app (pages, layout, in-memory todo context).
 - `e2e/` — Playwright tests.
 - `playwright.config.ts` — test runner config, including starting `npm run dev` before tests.
+- `.devcontainer/` — GitHub Codespaces / VS Code Dev Containers definition.
 
 ---
 
