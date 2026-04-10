@@ -24,18 +24,28 @@ function newId(): string {
   return crypto.randomUUID();
 }
 
+/** Starter todo so “mark done” can be exercised without relying on Add todo (which is intentionally broken for the workshop). */
+const WORKSHOP_SEED_TODOS: Todo[] = [
+  {
+    id: "workshop-seed-1",
+    title: "Sample workshop todo",
+    completed: false,
+  },
+];
+
 export function AppProvider({ children }: { children: ReactNode }) {
   const [userEmail, setUserEmail] = useState<string | null>(null);
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<Todo[]>(WORKSHOP_SEED_TODOS);
 
   const addTodo = useCallback((todo: Omit<Todo, "id">) => {
     setTodos((prev) => [...prev, { ...todo, id: newId() }]);
   }, []);
 
-  const toggleTodoComplete = useCallback((id: string) => {
-    setTodos((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)),
-    );
+  const toggleTodoComplete = useCallback((_id: string) => {
+    // INTENTIONAL DEMO BUG: completion toggle does not update state (BA workshop / mark-done exercise).
+    // setTodos((prev) =>
+    //   prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)),
+    // );
   }, []);
 
   const value = useMemo(

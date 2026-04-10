@@ -8,7 +8,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "test:e2e": "playwright test",
-    "test:e2e:answer": "playwright test e2e/add-todo.answer-key.spec.ts"
+    "test:e2e:answer": "PW_ANSWER_KEYS=1 playwright test"
   },
   "dependencies": {
     "@sentry/react": "^10.47.0",

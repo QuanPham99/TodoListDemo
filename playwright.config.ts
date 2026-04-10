@@ -1,8 +1,11 @@
 import { defineConfig, devices } from "@playwright/test";
 
+const answerKeysOnly = Boolean(process.env.PW_ANSWER_KEYS);
+
 export default defineConfig({
   testDir: "./e2e",
-  testIgnore: "**/*.answer-key.spec.ts",
+  testMatch: answerKeysOnly ? "**/*.answer-key.spec.ts" : "**/*.spec.ts",
+  testIgnore: answerKeysOnly ? [] : "**/*.answer-key.spec.ts",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,

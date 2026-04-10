@@ -1,6 +1,6 @@
 # Mini Todo — demo app for turning bug reports into automated tests
 
-This repository is intentionally small: a React todo app plus one Playwright end-to-end test. The goal is to show **how someone in a Business Analyst (BA) or product role** can connect **real user bug feedback** to a **repeatable, automated check** that developers and QA can run on every change.
+This repository is intentionally small: a React todo app plus Playwright end-to-end exercises. The goal is to show **how someone in a Business Analyst (BA) or product role** can connect **real user bug feedback** to a **repeatable, automated check** that developers and QA can run on every change.
 
 ---
 
@@ -11,7 +11,7 @@ This repository is intentionally small: a React todo app plus one Playwright end
 - **Automation** encodes those steps so the same scenario runs in a browser **without manual clicking every time**.
 - When the bug is fixed, the test **passes** and becomes a **regression guard**: if the bug comes back, the test fails early.
 
-The app includes a **known defect** on purpose: submitting “Add todo” does not persist the item to the dashboard. The Playwright test is written to **expect the correct behavior**, so it **fails** until that defect is fixed — exactly the signal you want when validating a user report.
+The app includes **known defects** on purpose: submitting “Add todo” does not persist new items, and marking the sample todo **complete** does not update the list. Workshop tests are written to **expect the correct behavior**, so they **fail** until each defect is fixed.
 
 ---
 
@@ -21,25 +21,27 @@ The app includes a **known defect** on purpose: submitting “Add todo” does n
    Demo login: any non-empty email and password are accepted. The app stores the session in memory (no real backend).
 
 2. **Todo dashboard** (`/dashboard`)  
-   Lists open todos under “To do” and completed ones under “Done”. The header includes a primary **Add todo** link that goes to the add form.
+   Lists open todos under “To do” and completed ones under “Done”. A **sample** todo is seeded so “mark complete” can be tried without using Add todo. The header includes a primary **Add todo** link that goes to the add form.  
+   **Expected behavior:** checking an open item moves it to “Done”.  
+   **Current demo behavior:** the completion toggle does **not** update state, so the sample item stays under “To do”.
 
 3. **Add todo** (`/add-todo`)  
    User enters a **Todo title** (required) and optional **Due date**, then clicks **Save todo**.  
    **Expected behavior:** after save, the user returns to the dashboard and sees the new todo under “To do”.  
-   **Current demo behavior:** the form submits and navigates back, but the todo is **not** saved to state — so the dashboard still looks empty. That mismatch is what the automated test catches.
+   **Current demo behavior:** the form submits and navigates back, but the new todo is **not** saved to state — so only the seeded item(s) remain. That mismatch is what the add-todo automated test catches.
 
 Navigation also includes a header **Add todo** link from every authenticated page; the automated test uses the **main** dashboard button to avoid clicking the nav twice by mistake.
 
 ---
 
-## The automated test (Playwright)
+## The automated tests (Playwright)
 
-- **Exercise file (start here):** `e2e/add-todo.spec.ts` — mostly empty; BAs (or students) implement the flow with an AI partner, then run `npm run test:e2e`.
-- **Answer key (optional):** `e2e/add-todo.answer-key.spec.ts` — full reference solution. It is **ignored** in normal runs; use `npm run test:e2e:answer` when you want to run it (for example to see the expected failure while the app bug exists).
-- **Name:** `add todo from dashboard shows new item on dashboard`
-- **Idea:** Do exactly what a user would do: log in, open Add todo, type a unique title, save, then **assert** that title appears on the dashboard.
+- **Add todo exercise:** `e2e/add-todo.spec.ts` — implement with an AI partner; answer key `e2e/add-todo.answer-key.spec.ts`.
+- **Mark done exercise:** `e2e/mark-todo-done.spec.ts` — seed todo + checkbox; answer key `e2e/mark-todo-done.answer-key.spec.ts`.
+- **Default run:** `npm run test:e2e` runs every non-answer `*.spec.ts` in `e2e/` (both starters **fail** until participants replace the placeholder throws and/or the app is fixed).
+- **Answer keys only:** `npm run test:e2e:answer` sets `PW_ANSWER_KEYS=1` (see `playwright.config.ts`) so reference specs run; they still **fail** while the intentional app bugs exist.
 
-The test uses **role and label** selectors (for example “Log in”, “Todo title”, “Save todo”) so it stays close to how accessibility tools — and humans — describe the UI.
+Selectors favor **role and label** (for example “Log in”, “Todo title”, “Save todo”, `getByRole('region', { name: 'Done' })`) so automation stays close to how users and assistive tech describe the UI.
 
 ---
 
@@ -79,16 +81,16 @@ Open the URL Vite prints (default `http://127.0.0.1:5173`). Walk through login �
 npm run test:e2e
 ```
 
-Playwright starts (or reuses) the dev server, runs the **workshop** spec (`e2e/add-todo.spec.ts`) in Chromium, then prints pass or fail.
+Playwright starts (or reuses) the dev server, runs the **workshop** specs in `e2e/`, then prints pass or fail.
 
-Reference solution only:
+Reference solutions only:
 
 ```bash
 npm run test:e2e:answer
 ```
 
-- **Fail (today):** the test expects the new todo **on the dashboard**; the demo app does not persist it, so the assertion times out. That **confirms** the automation matches the user complaint.
-- **Pass (after a fix):** once the app calls the real “add todo” behavior before navigating away, the same test should turn green and protect against the bug returning.
+- **Fail (today):** answer keys assert correct product behavior; the demo app still skips persisting new todos and skips updating completion, so those assertions fail until each bug is fixed.
+- **Pass (after fixes):** implementing `addTodo` on submit and restoring `toggleTodoComplete` state updates turns the same tests green and guards against regressions.
 
 In CI, set `CI=1` so the config uses stricter Playwright defaults (for example no reuse of an already-running dev server). Locally, an existing `npm run dev` can be reused when `CI` is unset.
 

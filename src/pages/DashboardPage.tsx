@@ -36,7 +36,7 @@ export function DashboardPage() {
                 <label className="todo-label">
                   <input
                     type="checkbox"
-                    checked={false}
+                    checked={t.completed}
                     onChange={() => toggleTodoComplete(t.id)}
                     aria-label={`Mark «${t.title}» complete`}
                   />
@@ -64,7 +64,7 @@ export function DashboardPage() {
                 <label className="todo-label">
                   <input
                     type="checkbox"
-                    checked
+                    checked={t.completed}
                     onChange={() => toggleTodoComplete(t.id)}
                     aria-label={`Mark «${t.title}» not done`}
                   />

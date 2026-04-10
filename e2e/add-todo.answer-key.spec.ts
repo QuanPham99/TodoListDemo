@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 /**
  * Reference solution for the BA workshop exercise in `add-todo.spec.ts`.
- * Not run by default — use: `npm run test:e2e:answer`
+ * Not run by default — use: `npm run test:e2e:answer` (answer-key specs only; see `playwright.config.ts`).
  *
  * Reproduces user report: submitting the add-todo form should show the new item
  * on the dashboard. Expected to fail while AddTodoPage skips persistence.
