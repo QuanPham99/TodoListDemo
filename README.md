@@ -34,7 +34,8 @@ Navigation also includes a header **Add todo** link from every authenticated pag
 
 ## The automated test (Playwright)
 
-- **File:** `e2e/add-todo.spec.ts`
+- **Exercise file (start here):** `e2e/add-todo.spec.ts` — mostly empty; BAs (or students) implement the flow with an AI partner, then run `npm run test:e2e`.
+- **Answer key (optional):** `e2e/add-todo.answer-key.spec.ts` — full reference solution. It is **ignored** in normal runs; use `npm run test:e2e:answer` when you want to run it (for example to see the expected failure while the app bug exists).
 - **Name:** `add todo from dashboard shows new item on dashboard`
 - **Idea:** Do exactly what a user would do: log in, open Add todo, type a unique title, save, then **assert** that title appears on the dashboard.
 
@@ -78,7 +79,13 @@ Open the URL Vite prints (default `http://127.0.0.1:5173`). Walk through login �
 npm run test:e2e
 ```
 
-Playwright starts (or reuses) the dev server, runs the test in Chromium, then prints pass or fail.
+Playwright starts (or reuses) the dev server, runs the **workshop** spec (`e2e/add-todo.spec.ts`) in Chromium, then prints pass or fail.
+
+Reference solution only:
+
+```bash
+npm run test:e2e:answer
+```
 
 - **Fail (today):** the test expects the new todo **on the dashboard**; the demo app does not persist it, so the assertion times out. That **confirms** the automation matches the user complaint.
 - **Pass (after a fix):** once the app calls the real “add todo” behavior before navigating away, the same test should turn green and protect against the bug returning.
@@ -112,7 +119,7 @@ Use this as a template when a user emails or tickets: “Add todo doesn’t work
 | 6 | **Use stable selectors** | Prefer labels and roles (`getByLabel`, `getByRole`) so tests survive minor CSS changes. |
 | 7 | **Run the test** | `npm run test:e2e` — failing means “bug still there or test wrong”; passing after a fix means “automation can guard this story.” |
 
-You do not need to write every test yourself; **your** artifact is often steps 1–4 in the ticket or refinement doc. Engineers fold that into code like `e2e/add-todo.spec.ts`. The closer your written steps match user language (“Save todo”, “dashboard”), the easier handoff is.
+You do not need to write every test yourself; **your** artifact is often steps 1–4 in the ticket or refinement doc. Engineers fold that into code like `e2e/add-todo.spec.ts` (workshop starter) or the answer key at `e2e/add-todo.answer-key.spec.ts`. The closer your written steps match user language (“Save todo”, “dashboard”), the easier handoff is.
 
 ---
 
