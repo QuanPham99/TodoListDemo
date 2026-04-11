@@ -17,7 +17,7 @@ test("mark sample todo complete moves it to Done section", async ({ page }) => {
 
   await expect(
     page.getByRole("heading", {
-      name: "Coda Baevers - Mini Todolist",
+      name: "Coda Beavers - Mini Todolist",
     }),
   ).toBeVisible();
 

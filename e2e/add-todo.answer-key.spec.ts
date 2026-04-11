@@ -17,7 +17,7 @@ test("add todo from dashboard shows new item on dashboard", async ({ page }) => 
 
   await expect(
     page.getByRole("heading", {
-      name: "Coda Baevers - Mini Todolist",
+      name: "Coda Beavers - Mini Todolist",
     }),
   ).toBeVisible();
 
@@ -30,7 +30,7 @@ test("add todo from dashboard shows new item on dashboard", async ({ page }) => 
   await expect(page).toHaveURL(/\/dashboard$/);
   await expect(
     page.getByRole("heading", {
-      name: "Coda Baevers - Mini Todolist",
+      name: "Coda Beavers - Mini Todolist",
     }),
   ).toBeVisible();
 

@@ -13,15 +13,12 @@ type AppContextValue = {
   userEmail: string | null;
   setUserEmail: (email: string | null) => void;
   todos: Todo[];
-  /** Adds a todo (AddTodoPage intentionally skips this on submit for the demo bug) */
   addTodo: (todo: Omit<Todo, "id">) => void;
   toggleTodoComplete: (id: string) => void;
-  /** INTENTIONAL: broken — does not remove any todos */
   deleteAllTodos: () => void;
-  /** INTENTIONAL: broken — removes a random todo, not the one for `id` */
   deleteTodo: (id: string) => void;
-  /** INTENTIONAL: broken — ignores the new title and mangles the original (workshop / edit exercise) */
   updateTodoTitle: (id: string, newTitle: string) => void;
+  logout: () => void;
 };
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -54,39 +51,29 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setTodos((prev) => [...prev, { ...todo, id: newId() }]);
   }, []);
 
-  const toggleTodoComplete = useCallback((_id: string) => {
-    // INTENTIONAL DEMO BUG: completion toggle does not update state (BA workshop / mark-done exercise).
-    // setTodos((prev) =>
-    //   prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)),
-    // );
+  const toggleTodoComplete = useCallback((id: string) => {
+    setTodos((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)),
+    );
   }, []);
 
   const deleteAllTodos = useCallback(() => {
-    // INTENTIONAL: broken — no-op so “Delete all” never clears the list
+    setTodos([]);
   }, []);
 
-  const deleteTodo = useCallback((_id: string) => {
-    // INTENTIONAL: broken — ignores which row was clicked and deletes a random item
-    setTodos((prev) => {
-      if (prev.length === 0) return prev;
-      const victimIndex = Math.floor(Math.random() * prev.length);
-      return prev.filter((_, i) => i !== victimIndex);
-    });
+  const deleteTodo = useCallback((id: string) => {
+    setTodos((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
-  const updateTodoTitle = useCallback((id: string, _newTitle: string) => {
-    // INTENTIONAL: broken — ignores `_newTitle` and replaces the title with each
-    // original word run together, twice (e.g. "Buy milk" → "Buymilk Buymilk").
+  const updateTodoTitle = useCallback((id: string, newTitle: string) => {
     setTodos((prev) =>
-      prev.map((t) => {
-        if (t.id !== id) return t;
-        const words = t.title.trim().split(/\s+/).filter(Boolean);
-        const squashed = words
-          .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
-          .join("");
-        return { ...t, title: `${squashed} ${squashed}` };
-      }),
+      prev.map((t) => (t.id === id ? { ...t, title: newTitle } : t)),
     );
+  }, []);
+
+  const logout = useCallback(() => {
+    setUserEmail(null);
+    setTodos(WORKSHOP_SEED_TODOS);
   }, []);
 
   const value = useMemo(
@@ -99,6 +86,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       deleteAllTodos,
       deleteTodo,
       updateTodoTitle,
+      logout,
     }),
     [
       userEmail,
@@ -108,6 +96,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       deleteAllTodos,
       deleteTodo,
       updateTodoTitle,
+      logout,
     ],
   );
 

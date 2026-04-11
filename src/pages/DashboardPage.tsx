@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import type { Todo } from "../types/todo";
 
-const DASHBOARD_TITLE = "Coda Baevers - Mini Todolist";
+const DASHBOARD_TITLE = "Coda Beavers - Mini Todolist";
 
 function TrashIcon() {
   return (
@@ -103,6 +103,7 @@ function TodoRow({
                 type="text"
                 className="todo-title-input"
                 value={editDraft}
+                autoFocus
                 onChange={(e) => onEditDraftChange(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {

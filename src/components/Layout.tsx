@@ -1,19 +1,14 @@
 import { Link, Outlet } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 
-/** Simple shell with branding and navigation for authenticated demo flows */
 export function Layout() {
-  const { userEmail, setUserEmail } = useApp();
-
-  function handleLogout() {
-    setUserEmail(null);
-  }
+  const { userEmail, logout } = useApp();
 
   return (
     <div className="layout">
       <header className="header">
         <Link to="/dashboard" className="brand">
-          Coda Baevers - Mini Todolist
+          Coda Beavers - Mini Todolist
         </Link>
         <nav className="nav">
           <Link to="/dashboard">Dashboard</Link>
@@ -21,7 +16,7 @@ export function Layout() {
           {userEmail ? (
             <span className="user-meta">
               <span className="muted">{userEmail}</span>
-              <button type="button" className="link-button" onClick={handleLogout}>
+              <button type="button" className="link-button" onClick={logout}>
                 Log out
               </button>
             </span>
