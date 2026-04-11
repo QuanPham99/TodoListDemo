@@ -1,14 +1,8 @@
 import { Link, Outlet } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 
-/** Simple shell with branding and navigation for authenticated demo flows */
 export function Layout() {
-  const { userEmail, setUserEmail, resetTodos } = useApp();
-
-  function handleLogout() {
-    setUserEmail(null);
-    resetTodos();
-  }
+  const { userEmail, logout } = useApp();
 
   return (
     <div className="layout">
@@ -22,7 +16,7 @@ export function Layout() {
           {userEmail ? (
             <span className="user-meta">
               <span className="muted">{userEmail}</span>
-              <button type="button" className="link-button" onClick={handleLogout}>
+              <button type="button" className="link-button" onClick={logout}>
                 Log out
               </button>
             </span>

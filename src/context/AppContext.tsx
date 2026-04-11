@@ -18,7 +18,7 @@ type AppContextValue = {
   deleteAllTodos: () => void;
   deleteTodo: (id: string) => void;
   updateTodoTitle: (id: string, newTitle: string) => void;
-  resetTodos: () => void;
+  logout: () => void;
 };
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -71,7 +71,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
-  const resetTodos = useCallback(() => {
+  const logout = useCallback(() => {
+    setUserEmail(null);
     setTodos(WORKSHOP_SEED_TODOS);
   }, []);
 
@@ -85,7 +86,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       deleteAllTodos,
       deleteTodo,
       updateTodoTitle,
-      resetTodos,
+      logout,
     }),
     [
       userEmail,
@@ -95,7 +96,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       deleteAllTodos,
       deleteTodo,
       updateTodoTitle,
-      resetTodos,
+      logout,
     ],
   );
 

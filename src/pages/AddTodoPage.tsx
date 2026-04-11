@@ -20,7 +20,7 @@ export function AddTodoPage() {
     addTodo({
       title: title.trim(),
       completed: false,
-      ...(dueDate ? { dueDate } : {}),
+      dueDate: dueDate || undefined,
     });
 
     navigate("/dashboard", { replace: true });
