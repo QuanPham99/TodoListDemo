@@ -3,17 +3,18 @@ import { useApp } from "../context/AppContext";
 
 /** Simple shell with branding and navigation for authenticated demo flows */
 export function Layout() {
-  const { userEmail, setUserEmail } = useApp();
+  const { userEmail, setUserEmail, resetTodos } = useApp();
 
   function handleLogout() {
     setUserEmail(null);
+    resetTodos();
   }
 
   return (
     <div className="layout">
       <header className="header">
         <Link to="/dashboard" className="brand">
-          Coda Baevers - Mini Todolist
+          Coda Beavers - Mini Todolist
         </Link>
         <nav className="nav">
           <Link to="/dashboard">Dashboard</Link>
