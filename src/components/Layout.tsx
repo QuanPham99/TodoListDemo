@@ -13,7 +13,7 @@ export function Layout() {
     <div className="layout">
       <header className="header">
         <Link to="/dashboard" className="brand">
-          Mini Todo
+          Coda Baevers - Mini Todolist
         </Link>
         <nav className="nav">
           <Link to="/dashboard">Dashboard</Link>

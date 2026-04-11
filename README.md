@@ -2,6 +2,8 @@
 
 This repository is intentionally small: a React todo app plus Playwright end-to-end exercises. The goal is to show **how someone in a Business Analyst (BA) or product role** can connect **real user bug feedback** to a **repeatable, automated check** that developers and QA can run on every change.
 
+**Facilitator / workshop guide:** [README_WORKSHOP.md](./README_WORKSHOP.md) (English) · [README_WORKSHOP_VI.md](./README_WORKSHOP_VI.md) (Tiếng Việt) — AI-assisted BA–Dev pairing, bug report template, and Playwright flow.
+
 ---
 
 ## What this project is for

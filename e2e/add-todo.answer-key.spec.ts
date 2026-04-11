@@ -15,7 +15,11 @@ test("add todo from dashboard shows new item on dashboard", async ({ page }) => 
   await page.getByLabel("Password", { exact: false }).fill("any-password");
   await page.getByRole("button", { name: "Log in" }).click();
 
-  await expect(page.getByRole("heading", { name: "Todo dashboard" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Coda Baevers - Mini Todolist",
+    }),
+  ).toBeVisible();
 
   await page.getByRole("main").getByRole("link", { name: "Add todo" }).click();
   await expect(page.getByRole("heading", { name: "Add todo" })).toBeVisible();
@@ -24,7 +28,11 @@ test("add todo from dashboard shows new item on dashboard", async ({ page }) => 
   await page.getByRole("button", { name: "Save todo" }).click();
 
   await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(page.getByRole("heading", { name: "Todo dashboard" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Coda Baevers - Mini Todolist",
+    }),
+  ).toBeVisible();
 
   await expect(
     page.getByRole("main").getByText(uniqueTitle, { exact: true }),

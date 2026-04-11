@@ -7,7 +7,7 @@ import { expect, test } from "@playwright/test";
  * Reproduces user report: checking “mark complete” should move the item to Done.
  * Expected to fail while toggleTodoComplete skips updating state.
  */
-const SAMPLE_TITLE = "Sample workshop todo";
+const SAMPLE_TITLE = "Buy milk";
 
 test("mark sample todo complete moves it to Done section", async ({ page }) => {
   await page.goto("/login");
@@ -15,7 +15,11 @@ test("mark sample todo complete moves it to Done section", async ({ page }) => {
   await page.getByLabel("Password", { exact: false }).fill("any-password");
   await page.getByRole("button", { name: "Log in" }).click();
 
-  await expect(page.getByRole("heading", { name: "Todo dashboard" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Coda Baevers - Mini Todolist",
+    }),
+  ).toBeVisible();
 
   await expect(
     page.getByRole("region", { name: "To do" }).getByText(SAMPLE_TITLE, { exact: true }),
