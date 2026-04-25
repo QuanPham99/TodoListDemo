@@ -1,9 +1,10 @@
-import * as Sentry from "@sentry/react";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useApp } from "../context/AppContext";
 
 export function AddTodoPage() {
   const navigate = useNavigate();
+  const { addTodo } = useApp();
   const [title, setTitle] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -16,29 +17,11 @@ export function AddTodoPage() {
     }
     setError(null);
 
-    // INTENTIONAL DEMO BUG: todo is not persisted
-    // (We navigate back but never call useApp().addTodo({ title, dueDate, completed: false }).)
-    Sentry.addBreadcrumb({
-      category: "todo",
-      message: "Add todo form submitted",
-      level: "info",
-      data: {
-        titleLen: title.trim().length,
-        hasDueDate: Boolean(dueDate),
-      },
+    addTodo({
+      title: title.trim(),
+      dueDate: dueDate || undefined,
+      completed: false,
     });
-    Sentry.captureMessage(
-      "Add todo: submitted but todo was not persisted (demo / regression check)",
-      {
-        level: "warning",
-        tags: { area: "add-todo", kind: "not-persisted" },
-        fingerprint: ["add-todo-not-persisted"],
-        extra: {
-          dueDate: dueDate || null,
-          titleLen: title.trim().length,
-        },
-      },
-    );
 
     navigate("/dashboard");
   }
